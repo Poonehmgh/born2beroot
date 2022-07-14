@@ -1,0 +1,69 @@
+USER STUFF
+
+Check that user belongs to groups 'sudo' and 'user42'
+$ groups
+
+Create a new user
+
+$ sudo adduser <new_user>sud
+for verifying: $ cat /etc/passwd
+
+
+Create a new group 'evaluating'
+
+$ sudo groupadd evaluating
+for verifying: $ cat /etc/group
+
+Assign user to group 'evaluating'
+
+$ sudo usermod -aG evaluating <username>
+Check if user belongs to group 'evaluating'
+$ sudo groups <new_user>
+
+
+Explain how to setup password policy
+
+        for password quality: sudo nano /etc/pam.d/common-password
+        for password expiration: sudo nano /etc/login.defs
+        for badpass message: sudo visudo
+
+
+
+HOST & PARTITIONS
+
+Check hostname
+$hostname
+
+Modify the hostname (check with reboot)
+
+  change hostname in /etc/hostname to your wished hostname
+  
+  add the following line after the existing hosts in /etc/hosts and comment the current host name:
+  <newhostname>
+  reboot with sudo reboot
+  login and see your user prompt or run hostname to see whether the hostname was changed
+
+
+  Restore old hostname
+  
+  change hostname in /etc/hostname to your old hostname (<yourlogin>42)
+  remove the line you added in /etc/hosts
+  reboot with sudo reboot
+
+PARTITIONS OF VM (LVM)
+$lsblk
+
+SUDO STUFF
+
+Check that 'sudo' is installed
+
+$sudo --version
+
+Assign new user to group 'sudo'
+$sudo usermod -aG sudo <new_user>
+
+Show the sudo rule implementations
+$ sudo visudo
+
+Check that '/var/log/sudo/' exists and has at least one file
+run one command with sudo and check that it was registered by running sudo ls /var/log/sudo and the inner repositories
