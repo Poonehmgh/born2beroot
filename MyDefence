@@ -4,19 +4,17 @@ Check that user belongs to groups 'sudo' and 'user42'
 $ groups
 
 Create a new user
-
 $ sudo adduser <new_user>sud
 for verifying: $ cat /etc/passwd
 
 
 Create a new group 'evaluating'
-
 $ sudo groupadd evaluating
 for verifying: $ cat /etc/group
 
 Assign user to group 'evaluating'
-
 $ sudo usermod -aG evaluating <username>
+
 Check if user belongs to group 'evaluating'
 $ sudo groups <new_user>
 
@@ -67,3 +65,80 @@ $ sudo visudo
 
 Check that '/var/log/sudo/' exists and has at least one file
 run one command with sudo and check that it was registered by running sudo ls /var/log/sudo and the inner repositories
+
+
+UFW STUFF
+
+
+UFW is properly installed?
+$sudo ufw --version
+
+UFW is working?
+$sudo systemctl status ufw
+
+List active rules in UFW
+$sudo ufw status
+
+Add rule to open port 8080
+$sudo ufw allow 8080
+
+Check that 8080 has been added
+$ufw status
+
+
+Delete the new rule
+$sudo ufw status
+        check the number of the row you want to delete
+        $sudo ufw delete <numberofrow> for each of the two open ports 8080 and 8080 (V6)
+
+
+
+SSH STUFF
+
+SSH is installed?
+$shh -V
+
+SSH is working?
+$sudo systemctl status ssh
+
+SSH only uses port 4242?
+       $sudo nano /etc/ssh/sshd_config and scroll to Port 4242
+
+SSH works for newly created user?
+open a terminal at your local machine
+run ssh <new_user>@<your_ip_address> -p 4242
+login with the credentials of the newly created user
+
+
+Check that SSH is disabled for root login
+$sudo nano /etc/ssh/sshd_config and scroll to PermitRootLogin
+
+
+SCRIPT MONITORING
+
+Modify the script to run every minute
+$sudo crontab -e
+*/10 * * * * bash /usr/local/bin/monitoring.sh
+
+Stop the script running from startup without modifying the script itself
+$sudo systemctl disable cron
+$sudo reboot
+        check sudo systemctl status cron to verify it's not running
+        
+ BONUS
+ 
+Wordpress is running
+        IP-Adress with ip a | grep inet
+        paste the IP adress in browser
+        (Modifying website with WP http://<your_ip_address>/wp-login.php)
+
+Additional service: fail2ban
+        
+fail2ban is running? 
+$sudo systemctl fail2ban
+  
+fail2ban for ssh is enabled: 
+$ nano /etc/fail2ban/jail.local
+
+test for a shh failed attemp 
+
